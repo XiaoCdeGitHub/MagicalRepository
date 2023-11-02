@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "*/3 * * * *"
+    - cron: "0 0 * * *"
 
 jobs:
   autogreen:
@@ -15,10 +15,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Auto green
+        env:
+          RANDOM_FREQUENCY: ${{ random(1, 10) }}
         run: |
           git config --local user.email "1692338302@qq.com"
           git config --local user.name "HighnessCui"
           git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git pull --rebase
           git commit --allow-empty -m "崔鼎天天开心!"
+          sleep $RANDOM_FREQUENCY
           git push
